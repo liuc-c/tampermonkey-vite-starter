@@ -1,25 +1,21 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import monkey, { cdn } from 'vite-plugin-monkey'
-import Components from 'unplugin-vue-components/vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import VueRouter from 'unplugin-vue-router/vite'
-import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import Unocss from 'unocss/vite'
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
-    // https://github.com/posva/unplugin-vue-router
-    VueRouter({
-      extensions: ['.vue'],
-      dts: 'src/typed-router.d.ts',
-      routesFolder: 'src/pages',
+    vue({
+      template: { transformAssetUrls },
     }),
+    // @quasar/plugin-vite options list:
+    // https://github.com/quasarframework/quasar/blob/dev/vite-plugin/index.d.ts
+    quasar(),
+    // https://github.com/posva/unplugin-vue-router
     monkey({
       entry: 'src/main.ts',
       userscript: {
@@ -29,7 +25,7 @@ export default defineConfig({
         },
         icon: 'https://vitejs.dev/logo.svg', // TODO: change to your own icon
         namespace: 'npm/vite-plugin-monkey', // TODO: change to your own namespace
-        match: ['*://*/*'], // TODO: change to your own match
+        match: ['https://neumorphism.io/*'], // TODO: change to your own match
         // include: [/^https:\/\/i\.\.li\/.*/],
       },
       build: {
@@ -37,32 +33,6 @@ export default defineConfig({
           vue: cdn.jsdelivr('Vue', 'dist/vue.global.prod.js'),
         },
       },
-    }),
-    // https://github.com/antfu/unplugin-auto-import
-    AutoImport({
-      imports: [
-        'vue',
-        '@vueuse/head',
-        '@vueuse/core',
-        VueRouterAutoImports,
-        {
-          // add any other imports you were relying on
-          'vue-router/auto': ['useLink'],
-        },
-      ],
-      dts: 'src/auto-imports.d.ts',
-      dirs: [
-        'src/composables',
-      ],
-      vueTemplate: true,
-    }),
-    // https://github.com/antfu/unplugin-vue-components
-    Components({
-      extensions: ['vue'],
-      // allow auto import and register components used in markdown
-      include: [/\.vue$/, /\.vue\?vue/],
-      dts: 'src/components.d.ts',
-      resolvers: [NaiveUiResolver()],
     }),
     Unocss(),
     VueDevTools(),
