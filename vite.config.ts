@@ -25,7 +25,7 @@ export default defineConfig({
         },
         icon: 'https://vitejs.dev/logo.svg', // TODO: change to your own icon
         namespace: 'npm/vite-plugin-monkey', // TODO: change to your own namespace
-        match: ['https://neumorphism.io/*'], // TODO: change to your own match
+        match: ['*://*/*'], // TODO: change to your own match
         // include: [/^https:\/\/i\.\.li\/.*/],
       },
       build: {
