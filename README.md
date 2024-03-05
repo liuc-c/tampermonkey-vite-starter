@@ -1,7 +1,5 @@
 # Vue 3 + TypeScript + Vite + TemperMonkey
 
-[![GitHub license](https://img.shields.io/github/license/liuc-c/tampermonkey-vite-starter)]()
-
 This template should help get you started developing with Vue 3 and TypeScript in TemperMonkey.
 
 # Try it now!
